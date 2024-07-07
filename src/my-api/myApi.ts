@@ -17,9 +17,9 @@ export interface Product {
 }
 
 // Fungsi untuk mengambil data produk
-export async function getProducts(context: QueryFunctionContext): Promise<Product[]> {
+export async function getProducts(context: QueryFunctionContext): Promise<any> {
   const { data } = await axios.get('https://nizom-sale-open-api.vercel.app/api/product')
-  console.log(data)
+ 
   return data
 }
 

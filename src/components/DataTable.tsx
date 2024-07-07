@@ -2,7 +2,15 @@
 
 "use client";
 
-import * as React from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import {
   ColumnDef,
   flexRender,
@@ -10,6 +18,9 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { Search } from "lucide-react";
+import * as React from "react";
+import { useLayoutEffect } from "react";
 import {
   Table,
   TableBody,
@@ -18,33 +29,19 @@ import {
   TableHeader,
   TableRow,
 } from "../components/ui/table";
+import FormProduct from "./FormProduct";
+import LimitSelect from "./LimitSelect";
+import SelectFilter from "./SelectFilter";
 import { Button } from "./ui/button";
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationPrevious,
   PaginationNext,
-  PaginationEllipsis,
+  PaginationPrevious,
 } from "./ui/pagination";
-import LimitSelect from "./LimitSelect";
-import { Search, AlignJustify } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useLayoutEffect, useState } from "react";
-import FormProduct from "./FormProduct";
-import { Card } from "./ui/card";
-import FormFilter from "./FormFilter";
-import SelectFilter from "./SelectFilter";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -75,7 +72,7 @@ export function DataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
-    pageCount: Math.ceil(data.length / limit),
+    pageCount: Math.ceil(data?.length / limit),
     state: { pagination: { pageIndex, pageSize: limit } },
     onPaginationChange: (updater) => {
       const newState =
