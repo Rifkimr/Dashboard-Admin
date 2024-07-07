@@ -247,9 +247,6 @@ export default function ProdukPage({}: Props) {
   if (query.isError) {
     return <div>Error: {query.error.message}</div>;
   }
-
-  console.log("Ini DAtanya", query?.data?.data);
-
   return (
     <div className="flex flex-col gap-5 w-full p-8">
       <PageTitle title="Produk" />

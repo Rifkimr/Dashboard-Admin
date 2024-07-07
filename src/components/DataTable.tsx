@@ -42,6 +42,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "./ui/pagination";
+import FiturTable from "./FiturTable";
+import { usePathname } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -54,20 +56,10 @@ export function DataTable<TData, TValue>({
   data,
   initialLimit = 10,
 }: DataTableProps<TData, TValue>) {
+  const pathname = usePathname()
   const [limit, setLimit] = React.useState(initialLimit);
   const [pageIndex, setPageIndex] = React.useState(0);
-  const [open, setOpen] = React.useState(false)
   const isDesktop = useMediaQuery("(min-width: 768px)")
-  const [openFilter, setOpenFilter] = React.useState(false)
-
-  const handleOpenFilter = () => {
-    setOpenFilter(true)
-  }
-
-  const handleCloseFilter = () => {
-    setOpenFilter(false)
-  }
-
 
   const table = useReactTable({
     data,
@@ -88,43 +80,16 @@ export function DataTable<TData, TValue>({
     setLimit(newLimit);
     table.setPageSize(newLimit);
   };
+
+  
+  
  if (isDesktop) {
   return (
     <div>
       <div className="flex gap-1 justify-between mb-5">
-      <LimitSelect limit={limit} onChange={handleLimitChange} />
-          <div className="relative flex items-center gap-2">
-            <Input
-              type="text"
-              placeholder="Search..."
-              className="pl-8 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black-500 focus:border-transparent"
-            />
-            <button className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500">
-              <Search size={20} />
-            </button>
-            
-            {/* Button Filter */}
-            <SelectFilter/>
-
-            {/* Button Tambah Product */}
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger asChild>
-                <Button variant="outline">Tambah Product</Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle >Tambah Product</DialogTitle>
-                </DialogHeader>
-                <FormProduct />
-                <DialogFooter>
-                  <Button> Simpan </Button>
-                </DialogFooter>
-               </DialogContent>
-            </Dialog>
-
-          </div>
-        </div>
-
+        <LimitSelect limit={limit} onChange={handleLimitChange} />
+        { pathname === '/orders' && <FiturTable/>}
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
